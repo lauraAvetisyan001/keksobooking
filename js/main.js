@@ -1,1 +1,1 @@
-import { dataHouse } from "./getData.js";
+import { dataHouse } from "./data.js";
