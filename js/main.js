@@ -1,0 +1,1 @@
+import { dataHouse } from "./data.js";
