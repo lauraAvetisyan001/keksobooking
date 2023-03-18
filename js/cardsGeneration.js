@@ -1,4 +1,4 @@
-import { dataHouse } from "./data.js";
+import {dataHouse} from "./data.js";
 
 const cardTemplate = document.querySelector('#card'),
       avatar = cardTemplate.content.querySelector('.popup__avatar'),
@@ -15,40 +15,47 @@ const cardTemplate = document.querySelector('#card'),
       featureDishwasher = cardTemplate.content.querySelector('.popup__feature--dishwasher'),
       featureWasher = cardTemplate.content.querySelector('.popup__feature--washer'),
       featureElevator = cardTemplate.content.querySelector('.popup__feature--elevator'),
-      featureConditioner = cardTemplate.content.querySelector('.popup__feature--conditioner'),
-      mapCanvas = document.querySelector('#map-canvas');
+      featureConditioner = cardTemplate.content.querySelector('.popup__feature--conditioner');
+
 
 function getFeatures(){
-      for(let i = 0; i < dataHouse.length; i++){
-            if(!dataHouse[i].offer.features.includes('wifi')){
-                featureWifi.classList.add('hidden')
-            } else if(!dataHouse[i].offer.features.includes('parking')){
-                featureParking.classList.add('hidden')
-            } else if(!dataHouse[i].offer.features.includes('dishwasher')){
-                featureDishwasher.classList.add('hidden')                
-            } else if(!dataHouse[i].offer.features.includes('washer')){
-                featureWasher.classList.add('hidden')    
-            } else if(!dataHouse[i].offer.features.includes('elevator')){
-                featureElevator.classList.add('hidden') 
-            } else{
-                featureConditioner.classList.add('hidden') 
-            }
-    }}
+    for(let i = 0; i < dataHouse.length; i++){
+        if(!dataHouse[i].offer.features.includes('wifi')){
+            featureWifi.classList.add('hidden');
+        } else if(!dataHouse[i].offer.features.includes('parking')){
+            featureParking.classList.add('hidden');
+        } else if(!dataHouse[i].offer.features.includes('dishwasher')){
+            featureDishwasher.classList.add('hidden');         
+        } else if(!dataHouse[i].offer.features.includes('washer')){
+            featureWasher.classList.add('hidden');    
+        } else if(!dataHouse[i].offer.features.includes('elevator')){
+            featureElevator.classList.add('hidden'); 
+        } else{
+            featureConditioner.classList.add('hidden'); 
+        }
+    }};
 
 
 function createPhotos(cardPhotos){
+    photos.innerHTML = ''
     for(let i=0; i < cardPhotos.length; i++){      
     const el = document.createElement('img');
     el.setAttribute('width', '45'); 
     el.setAttribute('height', '40');
     el.setAttribute('alt', 'Фотографія житла');
     el.className = "popup__photo";
-    el.setAttribute('src', cardPhotos[i])
+    el.setAttribute('src', cardPhotos[i]);
     photos.appendChild(el)
     }
 } 
 
-function createCard(el){
+
+const fragment = new DocumentFragment();
+
+export const cards = dataHouse.map((el) => createCards(el));
+
+export function createCards(el){
+    const cardTemplateClone = cardTemplate.content.cloneNode(true).firstElementChild
     avatar.src = el.author.avatar;
     title.textContent = el.offer.title;
     adress.textContent = el.offer.adress;
@@ -59,9 +66,6 @@ function createCard(el){
     getFeatures();
     description.textContent = el.offer.description; 
     createPhotos(el.offer.photos);
-    const cardTemplateClone = cardTemplate.content.cloneNode(true);
-    mapCanvas.appendChild(cardTemplateClone)
+    fragment.appendChild(cardTemplateClone)
+    return cardTemplateClone
 } 
-
-
-export const cards = dataHouse.slice(0, 1).map((el) => createCard(el));

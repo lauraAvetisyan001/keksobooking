@@ -1,3 +1,9 @@
-import { dataHouse } from "./data.js";
+import {dataHouse} from "./data.js";
+// import {cards} from "./cardsGeneration.js";
+import {addMaxValue} from "./formsValidation.js";
 
-import { cards } from "./cardsGeneration.js";
+import { cardConnection } from "./map.js";
+
+cardConnection()
+
+addMaxValue()
