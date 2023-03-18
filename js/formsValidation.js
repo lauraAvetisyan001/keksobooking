@@ -1,7 +1,9 @@
 const houseTypeSelect = document.querySelector('#type'),
       priceInput = document.querySelector('#price'), 
       timein = document.querySelector('#timein'),
-      timeout = document.querySelector('#timeout');
+      timeout = document.querySelector('#timeout'),
+      form = document.querySelector('.ad-form'),
+      mapFilters = document.querySelector('.map__filters');
 
 
 priceInput.placeholder = 1000;
@@ -48,6 +50,19 @@ function getCorrectTimein(e){
     timeoutValue.selected = true;
 }
 
+function pageUnloaded(){
+    form.classList = 'ad-form--disabled';
+    mapFilters.classList = 'map__filters--disabled'
+} pageUnloaded()
+
+
+function pageLoaded(){
+    form.classList = 'ad-form'
+    mapFilters.classList = 'map__filters'
+} 
+  
+
+window.addEventListener('load', pageLoaded)
 priceInput.addEventListener('input', addMaxValue)
 houseTypeSelect.addEventListener('change', getHouseTypeValue);
 timeout.addEventListener('change', getCorrectTimeout);
