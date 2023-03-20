@@ -3,7 +3,13 @@ const houseTypeSelect = document.querySelector('#type'),
       timein = document.querySelector('#timein'),
       timeout = document.querySelector('#timeout'),
       form = document.querySelector('.ad-form'),
-      mapFilters = document.querySelector('.map__filters');
+      mapFilters = document.querySelector('.map__filters'),
+      capacity = document.querySelector('#capacity'),
+      capacityOptions = capacity.querySelectorAll('option'),
+      roomNumber = document.querySelector('#room_number'),
+      roomNumberOptions = roomNumber.querySelectorAll('option'),
+      formBtn = document.querySelector('.ad-form__submit'),
+      title = document.querySelector('#title'); 
 
 
 priceInput.placeholder = 1000;
@@ -59,9 +65,50 @@ function pageUnloaded(){
 function pageLoaded(){
     form.classList = 'ad-form'
     mapFilters.classList = 'map__filters'
-} 
-  
+}
 
+
+function changeCapacity(e){
+    const capacityValue = capacity.querySelector(`option[value ='${e.target.value}']`)
+    capacityValue.selected = true;
+    capacityOptions[3].disabled = true;
+
+    for (let i = 0; i < capacity.options.length - 1; i++) {
+        const option = capacity.options[i];
+    if(roomNumberOptions[3].selected){
+        capacityOptions.forEach((el)=> el.disabled = true)
+        capacityOptions[3].disabled = false
+    } else if(option.value === e.target.value || option.value < e.target.value) {        
+        option.disabled = false;
+    } else {
+        option.disabled = true;
+    }
+  }
+}; 
+
+
+
+function titleValidation(e){
+    title.setCustomValidity('')
+    if(title.value.length < 30){
+        e.preventDefault()
+        title.setCustomValidity('Минимум 30 символов')
+    } else if(title.value.length > 100){
+        e.preventDefault()
+        title.setCustomValidity('Максимум 100 символов')
+    }
+    title.reportValidity()
+}
+
+title.addEventListener('change', titleValidation)
+
+formBtn.addEventListener('click', titleValidation)
+
+capacityOptions.forEach((el)=> el.disabled = true)
+capacityOptions[2].disabled = false
+capacityOptions[2].selected = true
+
+roomNumber.addEventListener('change', changeCapacity)
 window.addEventListener('load', pageLoaded)
 priceInput.addEventListener('input', addMaxValue)
 houseTypeSelect.addEventListener('change', getHouseTypeValue);
