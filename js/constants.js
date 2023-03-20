@@ -26,3 +26,9 @@ export const ANNOUNCMENT_VALUES = {
     minGuestsCount: 1,
     maxGuestsCount: 15,
 }
+
+
+export const centerTokioLoc = {
+    x: 35.68160140616105,
+    y: 139.7518429874794,
+}

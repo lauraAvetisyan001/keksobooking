@@ -24,8 +24,10 @@ export function addNearestAnnouncement(){
             description: announcementInfo.descriptionArray[getRandomIntegerNumber(1, announcementInfo.descriptionArray.length - 1)],
             photos: shuffle(announcementInfo.photosArray).slice(0, getRandomIntegerNumber(1, announcementInfo.photosArray.length + 1)),
         },
-        location: locationAdress,       
-    }
+        location: {
+            x: locationAdress.x,    
+            y: locationAdress.y
+    }}
 }
 
 export const dataHouse = new Array(announcementCount).fill(null).map(() => addNearestAnnouncement());
