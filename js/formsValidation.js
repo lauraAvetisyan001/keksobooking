@@ -1,3 +1,7 @@
+import {sendOffert, offertPromise} from './fetch.js'
+
+import {type} from './filtration.js'
+
 const houseTypeSelect = document.querySelector('#type'),
       priceInput = document.querySelector('#price'), 
       timein = document.querySelector('#timein'),
@@ -17,6 +21,10 @@ priceInput.placeholder = 1000;
 export function getHouseTypeValue(e){
      switch(e.target.value){
         case 'house':
+           const newOffert = offertPromise.filter((item)=>{
+                return item.offer.type === 'house' && item.offer.price === priceInput.value && item.offer.rooms === roomNumber.value
+            })
+            console.log(newOffert)
             priceInput.setAttribute('min', 5000); 
             priceInput.placeholder = 5000;
         break;
@@ -32,6 +40,7 @@ export function getHouseTypeValue(e){
             priceInput.setAttribute('min', 0)
             priceInput.placeholder = 0
         break;
+        
      }
 }
 
@@ -86,23 +95,27 @@ function changeCapacity(e){
   }
 }; 
 
-
-
 function titleValidation(e){
     title.setCustomValidity('')
     if(title.value.length < 30){
-        e.preventDefault()
         title.setCustomValidity('Минимум 30 символов')
     } else if(title.value.length > 100){
-        e.preventDefault()
         title.setCustomValidity('Максимум 100 символов')
+    } else {
+        sendOffert()
     }
     title.reportValidity()
 }
 
 title.addEventListener('change', titleValidation)
 
-formBtn.addEventListener('click', titleValidation)
+
+
+formBtn.addEventListener('click', (e)=>{  
+    e.preventDefault()
+    titleValidation(e);
+})
+
 
 capacityOptions.forEach((el)=> el.disabled = true)
 capacityOptions[2].disabled = false

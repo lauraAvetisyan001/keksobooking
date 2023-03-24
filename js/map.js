@@ -1,6 +1,8 @@
 import {dataHouse} from './data.js';
-import {cards} from './cardsGeneration.js';
+import {createCards} from './cardsGeneration.js';
 import {centerTokioLoc} from './constants.js';
+import {offertPromise} from './fetch.js'
+
 
 const adressInput = document.querySelector('#address');
 
@@ -14,7 +16,7 @@ const myIcon = L.icon({
     });
      
 
-const redMarker = L.marker([centerTokioLoc.x, centerTokioLoc.y], {icon: myIcon, draggable: true}).addTo(map);
+export const redMarker = L.marker([centerTokioLoc.x, centerTokioLoc.y], {icon: myIcon, draggable: true}).addTo(map);
 
 redMarker.addEventListener('drag', () => {
         const latlng = redMarker.getLatLng();
@@ -28,7 +30,10 @@ export function cardConnection(){
     }).addTo(map);
 }
 
-for(let i=0; i < dataHouse.length; i++){
-    const marker = L.marker([dataHouse[i].location.x, dataHouse[i].location.y]).addTo(map);
-    marker.bindPopup(cards[i]);
+export function createMarkers(){
+    const cards = offertPromise.map((el) => createCards(el))
+    for(let i=0; i < offertPromise.length; i++){
+        const marker = L.marker([offertPromise[i].location.x, offertPromise[i].location.y]).addTo(map);
+        marker.bindPopup(cards[i]);
+    }
 }

@@ -1,5 +1,7 @@
 import {dataHouse} from "./data.js";
 
+import {offertPromise} from './fetch.js'
+
 const cardTemplate = document.querySelector('#card'),
       avatar = cardTemplate.content.querySelector('.popup__avatar'),
       title = cardTemplate.content.querySelector('.popup__title'),
@@ -52,7 +54,11 @@ function createPhotos(cardPhotos){
 
 const fragment = new DocumentFragment();
 
-export const cards = dataHouse.map((el) => createCards(el));
+// export function getCards(el){
+  
+//       return offertPromise.map((el) => createCards(el));
+    
+// }
 
 export function createCards(el){
     const cardTemplateClone = cardTemplate.content.cloneNode(true).firstElementChild
@@ -66,6 +72,6 @@ export function createCards(el){
     getFeatures();
     description.textContent = el.offer.description; 
     createPhotos(el.offer.photos);
-    fragment.appendChild(cardTemplateClone)
+    fragment.appendChild(cardTemplateClone) 
     return cardTemplateClone
 } 
