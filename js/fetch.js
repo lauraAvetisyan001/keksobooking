@@ -72,7 +72,7 @@ const sendData = async(url, photoData) =>{
     return await response.json()
 }     
 
-export function sendOffert(){     
+export function sendOffert(){      
 
     const photoData = {
         author: {
