@@ -1,6 +1,4 @@
-import {sendOffert, offertPromise} from './fetch.js'
-
-import {type} from './filtration.js'
+import {sendOffert, offertPromise} from './fetch.js';
 
 const houseTypeSelect = document.querySelector('#type'),
       priceInput = document.querySelector('#price'), 
@@ -21,10 +19,10 @@ priceInput.placeholder = 1000;
 export function getHouseTypeValue(e){
      switch(e.target.value){
         case 'house':
-           const newOffert = offertPromise.filter((item)=>{
+            offertPromise.filter((item)=>{
                 return item.offer.type === 'house' && item.offer.price === priceInput.value && item.offer.rooms === roomNumber.value
             })
-            console.log(newOffert)
+            
             priceInput.setAttribute('min', 5000); 
             priceInput.placeholder = 5000;
         break;
@@ -43,7 +41,6 @@ export function getHouseTypeValue(e){
         
      }
 }
-
 
 export function addMaxValue(){
     priceInput.setCustomValidity('')
@@ -95,25 +92,23 @@ function changeCapacity(e){
   }
 }; 
 
-function titleValidation(e){
+function titleValidation(){
     title.setCustomValidity('')
     if(title.value.length < 30){
-        title.setCustomValidity('Минимум 30 символов')
+        title.setCustomValidity('Минимум 30 символов');
     } else if(title.value.length > 100){
-        title.setCustomValidity('Максимум 100 символов')
+        title.setCustomValidity('Максимум 100 символов');
     } else {
-        sendOffert()
+        sendOffert();
     }
     title.reportValidity()
 }
 
-title.addEventListener('change', titleValidation)
-
-
+title.addEventListener('change', titleValidation);
 
 formBtn.addEventListener('click', (e)=>{  
     e.preventDefault()
-    titleValidation(e);
+    titleValidation();
 })
 
 

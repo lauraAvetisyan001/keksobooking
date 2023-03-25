@@ -1,4 +1,4 @@
-import {dataHouse} from './data.js';
+import {getFilteredOffers} from './filtration.js';
 import {createCards} from './cardsGeneration.js';
 import {centerTokioLoc} from './constants.js';
 import {offertPromise} from './fetch.js'
@@ -25,15 +25,19 @@ redMarker.addEventListener('drag', () => {
       });
     
 export function cardConnection(){
-    const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 }
 
 export function createMarkers(){
-    const cards = offertPromise.map((el) => createCards(el))
-    for(let i=0; i < offertPromise.length; i++){
-        const marker = L.marker([offertPromise[i].location.x, offertPromise[i].location.y]).addTo(map);
+
+    const filteredArray = getFilteredOffers()
+
+    const cards = filteredArray.map((el) => createCards(el));
+    
+    for(let i=0; i < filteredArray.length; i++){
+        const marker = L.marker([filteredArray[i].location.x, filteredArray[i].location.y]).addTo(map);
         marker.bindPopup(cards[i]);
     }
 }

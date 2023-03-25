@@ -72,6 +72,6 @@ export function createCards(el){
     getFeatures();
     description.textContent = el.offer.description; 
     createPhotos(el.offer.photos);
-    fragment.appendChild(cardTemplateClone) 
+    // fragment.appendChild(cardTemplateClone) 
     return cardTemplateClone
 } 
