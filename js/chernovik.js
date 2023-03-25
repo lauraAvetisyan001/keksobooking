@@ -72,7 +72,7 @@ priceInput.addEventListener('input', ()=>{
 
 // timeout.addEventListener('change', getCorrectTimein)
 
-const title = document.querySelector('#title'); 
+const title = document.querySelector('#title');  
 
 function titleValidation(){
     if(title.value.length < 30){
