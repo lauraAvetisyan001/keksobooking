@@ -1,6 +1,10 @@
-import {dataHouse} from './data.js';
-import {cards} from './cardsGeneration.js';
+import {getFilteredOffers} from './filtration.js';
+import {createCards} from './cardsGeneration.js';
 import {centerTokioLoc} from './constants.js';
+import {offertPromise} from './fetch.js'
+
+
+const adressInput = document.querySelector('#address');
 
 const map = L.map('map-canvas').setView([centerTokioLoc.x, centerTokioLoc.y], 13);
 
@@ -12,32 +16,28 @@ const myIcon = L.icon({
     });
      
 
-const redMarker = L.marker([centerTokioLoc.x, centerTokioLoc.y], {icon: myIcon, draggable: true}).addTo(map);
+export const redMarker = L.marker([centerTokioLoc.x, centerTokioLoc.y], {icon: myIcon, draggable: true}).addTo(map);
 
-redMarker.addEventListener('dragend', () => {
+redMarker.addEventListener('drag', () => {
         const latlng = redMarker.getLatLng();
         redMarker.setLatLng(latlng);
-        console.log(latlng)
+        adressInput.value = `${latlng.lat}, ${latlng.lng}`; 
       });
     
 export function cardConnection(){
-    const layer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
-    checkMap(layer)
 }
 
+export function createMarkers(){
 
-for(let i=0; i < dataHouse.length; i++){
-    const marker = L.marker([dataHouse[i].location.x, dataHouse[i].location.y]).addTo(map);
-    marker.bindPopup(cards[i]);
-}
+    const filteredArray = getFilteredOffers()
 
-
-function checkMap(layer){
-    if (map.hasLayer(layer)) {
-        console.log('Слой добавлен на карту');
-      } else {
-        console.log('Слой не добавлен на карту');
-      }      
+    const cards = filteredArray.map((el) => createCards(el));
+    
+    for(let i=0; i < filteredArray.length; i++){
+        const marker = L.marker([filteredArray[i].location.x, filteredArray[i].location.y]).addTo(map);
+        marker.bindPopup(cards[i]);
+    }
 }

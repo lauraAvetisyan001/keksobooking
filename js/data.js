@@ -15,7 +15,7 @@ export function addNearestAnnouncement(){
             title: announcementInfo.titleArray[getRandomIntegerNumber(0, announcementInfo.titleArray.length - 1)],
             adress: `${locationAdress.x}, ${locationAdress.y}`,
             price: getRandomIntegerNumber(ANNOUNCMENT_VALUES.minPrice, ANNOUNCMENT_VALUES.maxPrice),
-            type: announcementInfo.typeArray[getRandomIntegerNumber(0, announcementInfo.typeArray.length - 1)],
+            type: announcementInfo.typeArray[getRandomIntegerNumber(0, announcementInfo.typeArray.length + 1)],
             rooms: getRandomIntegerNumber(ANNOUNCMENT_VALUES.minRoomsCount, ANNOUNCMENT_VALUES.maxRoomsCount),
             guests: getRandomIntegerNumber(ANNOUNCMENT_VALUES.minGuestsCount, ANNOUNCMENT_VALUES.maxGuestsCount),
             checkin: announcementInfo.checkinArray[getRandomIntegerNumber(0, announcementInfo.checkinArray.length - 1)],
@@ -31,3 +31,4 @@ export function addNearestAnnouncement(){
 }
 
 export const dataHouse = new Array(announcementCount).fill(null).map(() => addNearestAnnouncement());
+
