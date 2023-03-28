@@ -1,9 +1,11 @@
 import {addMaxValue} from "./formsValidation.js";
 
-import { cardConnection, createMarkers } from "./map.js";
+import { cardConnection, createMarkers, layerGroup } from "./map.js";
+
+
 
 cardConnection()
 
 addMaxValue()
 
-createMarkers()
+createMarkers(layerGroup)
