@@ -6,7 +6,7 @@ import {offertPromise} from './fetch.js'
 
 const adressInput = document.querySelector('#address');
 
-const map = L.map('map-canvas').setView([centerTokioLoc.x, centerTokioLoc.y], 13);
+export const map = L.map('map-canvas').setView([centerTokioLoc.x, centerTokioLoc.y], 13);
 
 const myIcon = L.icon({
     iconUrl: 'img/main-pin.svg',
@@ -30,14 +30,28 @@ export function cardConnection(){
     }).addTo(map);
 }
 
-export function createMarkers(){
+export const layerGroup = L.layerGroup().addTo(map); 
 
+export function createMarkers(layerGroup){
+
+    const cards = offertPromise.map((el) => createCards(el));
+    
+    for(let i=0; i < offertPromise.length; i++){
+    const marker = L.marker([offertPromise[i].location.x, offertPromise[i].location.y]).addTo(map);
+        marker.bindPopup(cards[i]);    
+        marker.addTo(layerGroup)   
+    } 
+   
+}
+
+export function updateMarkers(layerGroup) {
+    layerGroup.clearLayers();
     const filteredArray = getFilteredOffers()
 
     const cards = filteredArray.map((el) => createCards(el));
-    
     for(let i=0; i < filteredArray.length; i++){
         const marker = L.marker([filteredArray[i].location.x, filteredArray[i].location.y]).addTo(map);
         marker.bindPopup(cards[i]);
-    }
-}
+        marker.addTo(layerGroup)           
+    } 
+  }

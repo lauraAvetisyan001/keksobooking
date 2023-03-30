@@ -1,6 +1,6 @@
 import {redMarker} from './map.js';
 
-import {getRandomIntegerNumber} from './utils.js';
+import {userAvatar} from './uploadPhoto.js';
 
 const houseTypeSelect = document.querySelector('#type'),
       priceInput = document.querySelector('#price'), 
@@ -13,9 +13,27 @@ const houseTypeSelect = document.querySelector('#type'),
       description = document.querySelector('#description'),
       successTmpl = document.querySelector('#success'),
       main = document.querySelector('main'),
-      errorTmpl = document.querySelector('#error');
+      errorTmpl = document.querySelector('#error'),
+      features = document.querySelector('.features'),
+      checkbox = features.querySelectorAll('input'); console.log(checkbox)
 
-  
+
+features.addEventListener('change', ()=>{
+        const checkedFeature = getCheckedFeatures();  
+        createFeaturesArray()
+
+    })
+
+function createFeaturesArray(){
+        const checkedFeature = getCheckedFeatures(); 
+        const featuresArray = checkedFeature.split(',');
+        const updatedArr = featuresArray.map(function(item) {
+            return item.replace('undefined', '');
+          });
+          console.log(updatedArr)
+          return updatedArr
+    } 
+
 export const offertPromise = await fetch('http://localhost:3000/offers')
     .then(function (resp) {
         return resp.json() 
@@ -29,27 +47,40 @@ const sendData = async(url, photoData) =>{
         method: 'POST',
         body: JSON.stringify(photoData)
     })
-
+if(!response.ok){
+    throw new Error('Ooops')
+}
+    return await response.json()
 }     
 
-export function sendOffert(){      
 
+function getCheckedFeatures(){                
+    let checkedFeature
+        for(let i=0; i < checkbox.length; i++){        
+            if(checkbox[i].checked){
+                 checkedFeature += `${checkbox[i].value},`
+                }
+            }
+            return checkedFeature.split(",")             
+        }
+
+export function sendOffert(){      
     const photoData = {
         author: {
-            avatar: `img/avatars/user0${getRandomIntegerNumber(1, 8)}.png`,
+            avatar: userAvatar.src,
         },
         offer: {
-        adress: adressInput.value,
-        checkin: timein.value,
-        checkout: timeout.value,
-        title: title.value,
-        type: houseTypeSelect.value,
-        price: priceInput.value,       
-        guests: capacity.value,
-        rooms: roomNumber.value,
-        features: [],
-        description: description.value,
-        photos: [],
+            adress: adressInput.value,
+            checkin: timein.value,
+            checkout: timeout.value,
+            title: title.value,
+            type: houseTypeSelect.value,
+            price: priceInput.value,       
+            guests: capacity.value,
+            rooms: roomNumber.value,
+            features: getCheckedFeatures(),
+            description: description.value,
+            photos: [],
         },
         location: {
             x: redMarker.getLatLng().lat,
@@ -58,13 +89,12 @@ export function sendOffert(){
 
     }; 
 
+
 JSON.stringify(photoData);
 sendData('http://localhost:3000/offers', photoData)
     .then((data)=>{        
         JSON.parse(data)           
-    }).catch(()=>{
-        showSuccessMsg() 
-        });
+    })
     
 }
 
