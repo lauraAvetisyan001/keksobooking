@@ -5,18 +5,14 @@ const uploadImage = document.querySelector('.ad-form__photo');
 
 
 export function getUploadAvatar(){
-const file = this.files[0];
-const reader = new FileReader();
+    const file = this.files[0];
+    const reader = new FileReader();
 
-reader.onload = function(e){
-userAvatar.src = e.target.result;
+    reader.onload = function(e){
+    userAvatar.src = e.target.result;
 } 
-
-reader.readAsDataURL(file)
+    reader.readAsDataURL(file)
 }
-
-
-userAvatarInput.addEventListener('change', getUploadAvatar);
 
 export function getUploadImages(){
     const file = this.files[0];
@@ -33,5 +29,5 @@ export function getUploadImages(){
     reader.readAsDataURL(file) 
     }
     
-    
+userAvatarInput.addEventListener('change', getUploadAvatar);
 uploadImageInput.addEventListener('change', getUploadImages);

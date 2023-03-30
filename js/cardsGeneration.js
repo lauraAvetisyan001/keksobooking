@@ -20,17 +20,17 @@ const cardTemplate = document.querySelector('#card'),
       featureConditioner = cardTemplate.content.querySelector('.popup__feature--conditioner');
 
 
-function getFeatures(){
-    for(let i = 0; i < dataHouse.length; i++){
-        if(!dataHouse[i].offer.features.includes('wifi')){
+function getFeatures(cardFeatures){
+    for(let i = 0; i < cardFeatures.length; i++){
+        if(!cardFeatures[i].includes('wifi')){
             featureWifi.classList.add('hidden');
-        } else if(!dataHouse[i].offer.features.includes('parking')){
+        } else if(!cardFeatures[i].includes('parking')){
             featureParking.classList.add('hidden');
-        } else if(!dataHouse[i].offer.features.includes('dishwasher')){
+        } else if(!cardFeatures[i].includes('dishwasher')){
             featureDishwasher.classList.add('hidden');         
-        } else if(!dataHouse[i].offer.features.includes('washer')){
+        } else if(!cardFeatures[i].includes('washer')){
             featureWasher.classList.add('hidden');    
-        } else if(!dataHouse[i].offer.features.includes('elevator')){
+        } else if(!cardFeatures[i].includes('elevator')){
             featureElevator.classList.add('hidden'); 
         } else{
             featureConditioner.classList.add('hidden'); 
@@ -52,14 +52,6 @@ function createPhotos(cardPhotos){
 } 
 
 
-const fragment = new DocumentFragment();
-
-// export function getCards(el){
-  
-//       return offertPromise.map((el) => createCards(el));
-    
-// }
-
 export function createCards(el){
     const cardTemplateClone = cardTemplate.content.cloneNode(true).firstElementChild
     avatar.src = el.author.avatar;
@@ -69,9 +61,9 @@ export function createCards(el){
     price.textContent = `${el.offer.price} тис/грн.`;
     capacity.textContent = `${el.offer.rooms} кімнати для ${el.offer.guests} гостей`;
     time.textContent =`Заїзд після ${el.offer.checkin}, виїзд до ${el.offer.checkout}`;
-    getFeatures();
+    getFeatures(el.offer.features);
     description.textContent = el.offer.description; 
     createPhotos(el.offer.photos);
-    // fragment.appendChild(cardTemplateClone) 
     return cardTemplateClone
+    
 } 
