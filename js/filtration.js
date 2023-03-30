@@ -27,13 +27,13 @@ export function getFilteredOffers(){
     function getPriceRange(priceOption) {
         switch (priceOption) {
           case 'low':
-            return { min: 0, max: 10000 };
+            return {min: 0, max: 10000};
           case 'middle':
-            return { min: 10000, max: 50000 };
+            return {min: 10000, max: 50000};
           case 'high':
-            return { min: 50000, max: Infinity };
+            return {min: 50000, max: Infinity};
           default:
-            return { min: 0, max: Infinity };
+            return {min: 0, max: Infinity};
         }
       }
 
